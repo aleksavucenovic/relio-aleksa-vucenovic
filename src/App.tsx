@@ -7,7 +7,7 @@ import UpdatedElementsList from './components/UpdatedElementsList';
 
 function App() {
 
-  const [elementsList] = useState<ElementItem[]>(() => getElementsList(2225));
+  const [elementsList] = useState<ElementItem[]>(() => getElementsList(20000));
   const [elements, setElements] = useState<ElementItem[]>(elementsList);
   const [editElements, setEditElements] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<ElementItem[]>([]);
