@@ -4,6 +4,7 @@ import { getElementsList, type ElementItem } from './data/elements';
 import FilterElements from './components/FilterElements';
 import ElementsFooter from './components/ElementsFooter';
 import UpdatedElementsList from './components/UpdatedElementsList';
+import ElementsList from './components/ElementsList';
 
 function App() {
 
@@ -92,30 +93,12 @@ function App() {
               <div>
                 <FilterElements filterElements={filterElements} />
 
-                <ul className="elements-list">
-                  {elements.length > 0
-                    ? elements.map((element) => (
-                      <li
-                        key={element.id}
-                        className={`element ${isDisabled(element) ? 'disabled' : ''}`}
-                      >
-                        <input
-                          type="checkbox"
-                          className="element-checkbox"
-                          disabled={isDisabled(element)}
-                          onChange={(e) => handleCheckboxChange(element, e.target.checked)}
-                          checked={selectedItems.some(item => item.id === element.id)}
-                        />
-
-                        <span>{element.label}</span>
-                      </li>
-                    ))
-                    :
-                    <div className="no-elements-container">
-                      <span className="no-elements-text">No elements found.</span>
-                    </div>
-                  }
-                </ul>
+                <ElementsList
+                  selectedItems={selectedItems}
+                  elements={elements}
+                  isDisabled={isDisabled}
+                  handleCheckboxChange={handleCheckboxChange}
+                />
 
                 <ElementsFooter
                   selectedItems={selectedItems}
