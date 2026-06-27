@@ -8,7 +8,7 @@ body {
   min-height: 70vh;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 10px;
   padding: 32px;
   background: rgb(244, 244, 244);
   margin: 0 auto;
@@ -28,6 +28,7 @@ body {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 12px;
 }
 
 .change-my-choice-text {
@@ -69,7 +70,7 @@ body {
 }
 
 .edit-info-container {
-  padding: 12px;
+  padding: 5px;
 }
 
 .edit-info-text {
@@ -136,4 +137,84 @@ body {
 
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+}
+
+.buttons-bar {
+  margin-top: 20px;
+  gap: 10px;
+  display: flex;
+}
+
+.save-text-button {
+  padding: 10px 18px;
+  background-color: #0f152d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-text-button {
+  padding: 10px 18px;
+  background-color: #991212;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.save-text,
+.cancel-text {
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+}
+
+
+.current-selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.selected-element {
+  background-color: #0f152d;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+
+}
+
+.selected-element-label {
+  color: white;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+}
+
+.selected-element-remove {
+  font-size: 18px;
+  font-weight: bold;
+  color: rgb(255, 1, 1);
+  margin-left: 8px;
+}
+
+.updated-elements-items {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.updated-element {
+  background-color: #0f152d;
+  border-radius: 4px;
+  padding: 6px 10px;
+  cursor: pointer;
+
+}
+
+.updated-element-label {
+  color: white;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
 }

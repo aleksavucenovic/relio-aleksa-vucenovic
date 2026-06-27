@@ -24,6 +24,12 @@ function App() {
     }
   }
 
+  const changeMyChoiceHandler = () => {
+    if (!editElements) {
+      setEditElements(true)
+      setSelectedItems(updatedItems)
+    }
+  }
 
   const saveHandler = () => {
     setUpdatedItems(selectedItems);
@@ -36,17 +42,24 @@ function App() {
     setEditElements(false);
   }
 
+  const removeUpdatedElement = (element: ElementItem) => {
+    setUpdatedItems(updatedItems.filter(item => item.id !== element.id));
+  }
+
   return (
     <>
       <section className="center">
         <div className="header">
           <h2>Select items</h2>
 
-          <UpdatedElementsList updatedItems={updatedItems} />
+          <UpdatedElementsList
+            updatedItems={updatedItems}
+            removeUpdatedElement={removeUpdatedElement}
+          />
 
           <button
             className="change-my-choice"
-            onClick={() => setEditElements(true)}
+            onClick={changeMyChoiceHandler}
           >
             <span className="change-my-choice-text">Change my choice</span>
           </button>
@@ -54,42 +67,43 @@ function App() {
 
         <div className="container">
 
-          <div className="select-items">
-            <span className="select-items-label">Select items</span>
-          </div>
-
           {editElements ? (
-            <div>
-              <FilterElements />
+            <>
+              <div className="select-items">
+                <span className="select-items-label">Select items</span>
+              </div>
 
-              <ul className="elements-list">
-                {elements.map((element) => (
-                  <li
-                    key={element.id}
-                    className={`element ${isDisabled(element) ? 'disabled' : ''}`}
-                  >
-                    <input
-                      type="checkbox"
-                      className="element-checkbox"
-                      disabled={isDisabled(element)}
-                      onChange={(e) => handleCheckboxChange(element, e.target.checked)}
-                      checked={selectedItems.includes(element)}
-                    />
+              <div>
+                <FilterElements />
 
-                    <span>{element.label}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="elements-list">
+                  {elements.map((element) => (
+                    <li
+                      key={element.id}
+                      className={`element ${isDisabled(element) ? 'disabled' : ''}`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="element-checkbox"
+                        disabled={isDisabled(element)}
+                        onChange={(e) => handleCheckboxChange(element, e.target.checked)}
+                        checked={selectedItems.includes(element)}
+                      />
 
-              <ElementsFooter
-                selectedItems={selectedItems}
-                cancelHandler={cancelHandler}
-                saveHandler={saveHandler}
-                removeElement={(item) => handleCheckboxChange(item, false)}
-              />
+                      <span>{element.label}</span>
+                    </li>
+                  ))}
+                </ul>
 
+                <ElementsFooter
+                  selectedItems={selectedItems}
+                  cancelHandler={cancelHandler}
+                  saveHandler={saveHandler}
+                  removeElement={(item) => handleCheckboxChange(item, false)}
+                />
 
-            </div>
+              </div>
+            </>
           ) : (
             <div className="edit-info-container">
               <span className="edit-info-text">Click "Change my choice" to edit your selection</span>
