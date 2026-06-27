@@ -7,7 +7,19 @@ function App() {
 
   const [elements] = useState<ElementItem[]>(getElementsList(5));
   const [editElements, setEditElements] = useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = useState<ElementItem[]>([]);
 
+  const isDisabled = (element: ElementItem) => selectedItems.length === 3 && !selectedItems.includes(element);
+
+  const handleCheckboxChange = (element: ElementItem, isChecked: boolean) => {
+    if (isChecked) {
+      if (selectedItems.length < 3) {
+        setSelectedItems([...selectedItems, element]);
+      }
+    } else {
+      setSelectedItems(selectedItems.filter(item => item.id !== element.id))
+    }
+  }
 
   return (
     <>
@@ -35,11 +47,23 @@ function App() {
 
               <ul className="elements-list">
                 {elements.map((element) => (
-                  <li key={element.id} className="element">
+                  <li
+                    key={element.id}
+                    className={`element ${isDisabled(element) ? 'disabled' : ''}`}
+                  >
+                    <input
+                      type="checkbox"
+                      className="element-checkbox"
+                      disabled={isDisabled(element)}
+                      onChange={(e) => handleCheckboxChange(element, e.target.checked)}
+                    />
+
                     <span>{element.label}</span>
                   </li>
                 ))}
               </ul>
+
+              
             </div>
           ) : (
             <div className="edit-info-container">
