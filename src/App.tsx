@@ -4,7 +4,7 @@ import { getElementsList, type ElementItem } from './data/elements';
 import FilterElements from './components/FilterElements';
 import ElementsFooter from './components/ElementsFooter';
 import UpdatedElementsList from './components/UpdatedElementsList';
-import ElementsList from './components/ElementsList';
+import ElementsListReactWindow from './components/ElementsListReactWindow';
 
 function App() {
 
@@ -93,12 +93,20 @@ function App() {
               <div>
                 <FilterElements filterElements={filterElements} />
 
-                <ElementsList
+                <ElementsListReactWindow
                   selectedItems={selectedItems}
                   elements={elements}
                   isDisabled={isDisabled}
                   handleCheckboxChange={handleCheckboxChange}
                 />
+
+                {/* Component without react-window (bad performance) */}
+                {/* <ElementsList
+                  selectedItems={selectedItems}
+                  elements={elements}
+                  isDisabled={isDisabled}
+                  handleCheckboxChange={handleCheckboxChange}
+                /> */}
 
                 <ElementsFooter
                   selectedItems={selectedItems}
