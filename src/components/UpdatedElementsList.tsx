@@ -22,7 +22,7 @@ const UpdatedElementsList = ({
                         <span>No saved items</span>
                     )}
 
-                {updatedItems.map((item, index) => {
+                {updatedItems.map((item) => {
                     return (
                         <div key={item.id} className="updated-element" onClick={() => removeUpdatedElement(item)}>
                             <span className="updated-element-label">

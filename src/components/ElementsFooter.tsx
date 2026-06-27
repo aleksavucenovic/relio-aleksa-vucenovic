@@ -23,7 +23,7 @@ const ElementsFooter = ({
                         <span>No items selected</span>
                     )}
 
-                {selectedItems.map((item, index) => {
+                {selectedItems.map((item) => {
                     return (
                         <div key={item.id} onClick={() => removeElement(item)} className="selected-element">
                             <span className="selected-element-label">
