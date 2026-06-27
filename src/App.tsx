@@ -2,12 +2,15 @@ import { useState } from 'react';
 import './App.css'
 import { getElementsList, type ElementItem } from './data/elements';
 import FilterElements from './components/FilterElements';
+import ElementsFooter from './components/ElementsFooter';
+import UpdatedElementsList from './components/UpdatedElementsList';
 
 function App() {
 
   const [elements] = useState<ElementItem[]>(getElementsList(5));
   const [editElements, setEditElements] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<ElementItem[]>([]);
+  const [updatedItems, setUpdatedItems] = useState<ElementItem[]>([]);
 
   const isDisabled = (element: ElementItem) => selectedItems.length === 3 && !selectedItems.includes(element);
 
@@ -21,11 +24,25 @@ function App() {
     }
   }
 
+
+  const saveHandler = () => {
+    setUpdatedItems(selectedItems);
+    setSelectedItems([]);
+    setEditElements(false);
+  }
+
+  const cancelHandler = () => {
+    setSelectedItems([]);
+    setEditElements(false);
+  }
+
   return (
     <>
       <section className="center">
         <div className="header">
           <h2>Select items</h2>
+
+          <UpdatedElementsList updatedItems={updatedItems} />
 
           <button
             className="change-my-choice"
@@ -56,6 +73,7 @@ function App() {
                       className="element-checkbox"
                       disabled={isDisabled(element)}
                       onChange={(e) => handleCheckboxChange(element, e.target.checked)}
+                      checked={selectedItems.includes(element)}
                     />
 
                     <span>{element.label}</span>
@@ -63,7 +81,14 @@ function App() {
                 ))}
               </ul>
 
-              
+              <ElementsFooter
+                selectedItems={selectedItems}
+                cancelHandler={cancelHandler}
+                saveHandler={saveHandler}
+                removeElement={(item) => handleCheckboxChange(item, false)}
+              />
+
+
             </div>
           ) : (
             <div className="edit-info-container">
