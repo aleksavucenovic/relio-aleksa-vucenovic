@@ -7,12 +7,14 @@ import UpdatedElementsList from './components/UpdatedElementsList';
 
 function App() {
 
-  const [elements] = useState<ElementItem[]>(getElementsList(5));
+  const [elementsList] = useState<ElementItem[]>(() => getElementsList(2225));
+  const [elements, setElements] = useState<ElementItem[]>(elementsList);
   const [editElements, setEditElements] = useState<boolean>(false);
   const [selectedItems, setSelectedItems] = useState<ElementItem[]>([]);
   const [updatedItems, setUpdatedItems] = useState<ElementItem[]>([]);
 
-  const isDisabled = (element: ElementItem) => selectedItems.length === 3 && !selectedItems.includes(element);
+  const isDisabled = (element: ElementItem) => selectedItems.length === 3
+    && !selectedItems.some(item => item.id === element.id)
 
   const handleCheckboxChange = (element: ElementItem, isChecked: boolean) => {
     if (isChecked) {
@@ -46,6 +48,20 @@ function App() {
     setUpdatedItems(updatedItems.filter(item => item.id !== element.id));
   }
 
+  const filterElements = (searchParams: string, filter: string) => {
+    if (!!searchParams && !!filter && filter == 'no_filter') {
+      let filteredBySearchParams: ElementItem[] = elementsList.filter(element =>
+        element.label.toLowerCase().includes(searchParams.toLowerCase()));
+      setElements(filteredBySearchParams);
+    } else if (!!searchParams || (!!filter && filter != 'no_filter')) {
+      let filteredByParams: ElementItem[] = elementsList.filter(element =>
+        element.label.toLowerCase().includes(searchParams.toLowerCase()) && element.id > Number(filter));
+      setElements(filteredByParams);
+    } else {
+      setElements(elementsList);
+    }
+  }
+
   return (
     <>
       <section className="center">
@@ -74,25 +90,31 @@ function App() {
               </div>
 
               <div>
-                <FilterElements />
+                <FilterElements filterElements={filterElements} />
 
                 <ul className="elements-list">
-                  {elements.map((element) => (
-                    <li
-                      key={element.id}
-                      className={`element ${isDisabled(element) ? 'disabled' : ''}`}
-                    >
-                      <input
-                        type="checkbox"
-                        className="element-checkbox"
-                        disabled={isDisabled(element)}
-                        onChange={(e) => handleCheckboxChange(element, e.target.checked)}
-                        checked={selectedItems.includes(element)}
-                      />
+                  {elements.length > 0
+                    ? elements.map((element) => (
+                      <li
+                        key={element.id}
+                        className={`element ${isDisabled(element) ? 'disabled' : ''}`}
+                      >
+                        <input
+                          type="checkbox"
+                          className="element-checkbox"
+                          disabled={isDisabled(element)}
+                          onChange={(e) => handleCheckboxChange(element, e.target.checked)}
+                          checked={selectedItems.some(item => item.id === element.id)}
+                        />
 
-                      <span>{element.label}</span>
-                    </li>
-                  ))}
+                        <span>{element.label}</span>
+                      </li>
+                    ))
+                    :
+                    <div className="no-elements-container">
+                      <span className="no-elements-text">No elements found.</span>
+                    </div>
+                  }
                 </ul>
 
                 <ElementsFooter
@@ -106,7 +128,9 @@ function App() {
             </>
           ) : (
             <div className="edit-info-container">
-              <span className="edit-info-text">Click "Change my choice" to edit your selection</span>
+              <span className="edit-info-text">
+                Click "Change my choice" to edit your selection
+              </span>
             </div>
           )}
 
